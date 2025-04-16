@@ -18,6 +18,9 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
+app.get("/", (req, res) => {
+    res.send("Welcome to the API! Use /api/auth for authentication routes.");
+});
 
 // Database connection
 mongoose
