@@ -34,7 +34,7 @@ export const register = async (req, res) => {
   const user = new User({ name,email,phone,password: hashedPassword, verificationToken });
   await user.save();
 
-  const verificationLink = `${process.env.BASE_URL}/api/auth/verify-email/${verificationToken}`;
+  const verificationLink = `${process.env.BASE_URL}/verify-email/${verificationToken}`;
 
   try {
     await transporter.sendMail({
@@ -57,8 +57,7 @@ export const verifyEmail = async (req, res) => {
   user.isVerified = true;
   user.verificationToken = undefined;
   await user.save();
-
-  res.redirect(`${process.env.FRONTEND_URL}/login`);
+  return res.status(200).json({ message: 'Email verified successfully.' });
 };
 
 
@@ -113,7 +112,7 @@ export const resetPassword = async (req, res) => {
 };
 
 
-export const login = async (req, res) => {
+export const  login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
