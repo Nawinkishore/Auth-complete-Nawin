@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import dotenv from "dotenv";
-
+import cors from "cors";
 import authRoutes from "./routes/auth.routes.js";
 import oauthRoutes from "./routes/oauth.routes.js";
 import protectedRoutes from "./routes/protected.routes.js";
@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 app.get("/", (req, res) => {
   res.send("Welcome to the API! Use /api/auth for authentication routes.");

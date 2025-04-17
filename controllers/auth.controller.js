@@ -24,14 +24,14 @@ const createRefreshToken = (userId) =>
 
 
 export const register = async (req, res) => {
-  const { email, password } = req.body;
+  const {name,email,phone, password } = req.body;
   const existingUser = await User.findOne({ email });
   if (existingUser) return res.status(400).json({ message: 'Email already exists' });
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const verificationToken = crypto.randomBytes(32).toString('hex');
 
-  const user = new User({ email, password: hashedPassword, verificationToken });
+  const user = new User({ name,email,phone,password: hashedPassword, verificationToken });
   await user.save();
 
   const verificationLink = `${process.env.BASE_URL}/api/auth/verify-email/${verificationToken}`;
